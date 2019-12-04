@@ -9,6 +9,4 @@ RUN apt-get update && apt-get install -y dovecot-core dovecot-gssapi dovecot-ima
     sed -i 's/#log_path = syslog/log_path = \/dev\/stderr/' /etc/dovecot/conf.d/10-logging.conf && \
     sed -i 's/#info_log_path =/info_log_path = \/dev\/stdout/' /etc/dovecot/conf.d/10-logging.conf
 
-USER dovecot
-
 CMD /usr/sbin/dovecot -F
