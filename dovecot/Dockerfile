@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y dovecot-core dovecot-gssapi dovecot-ima
     sed -i 's/#log_path = syslog/log_path = \/dev\/stderr/' /etc/dovecot/conf.d/10-logging.conf && \
     sed -i 's/#info_log_path =/info_log_path = \/dev\/stdout/' /etc/dovecot/conf.d/10-logging.conf && \
     sed -i '0,/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/ s/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/args = \/etc\/dovecot\/dovecot-ldap-passdb.conf.ext/' /etc/dovecot/conf.d/auth-ldap.conf.ext && \
-    sed -i 's/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/args = \/etc\/dovecot\/dovecot-ldap-userdb.conf.ext/' /etc/dovecot/conf.d/auth-ldap.conf.ext
-
+    sed -i 's/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/args = \/etc\/dovecot\/dovecot-ldap-userdb.conf.ext/' /etc/dovecot/conf.d/auth-ldap.conf.ext && \
+    sed -i 's/#auth_gssapi_hostname =/auth_gssapi_hostname = "$ALL"/' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/#auth_krb5_keytab =/auth_krb5_keytab = \/etc\/dovecot\/dovecot.keytab/' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/auth_mechanisms = plain/auth_mechanisms = gssapi plain login/' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/#!include auth-ldap.conf.ext/!include auth-ldap.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 
 CMD /usr/sbin/dovecot -F
