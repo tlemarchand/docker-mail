@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y curl apt-transport-https gpg && \
     gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg && \
     echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/buster buster main' > /etc/apt/sources.list.d/dovecot.list && \
     apt-get update && apt-get install -y dovecot-core dovecot-gssapi dovecot-imapd dovecot-ldap dovecot-lmtpd dovecot-managesieved dovecot-sieve dovecot-submissiond && \
-    apt-get purge curl apt-transport-https gpg && \
+    apt-get purge -y curl apt-transport-https gpg && \
     rm -rf /var/lib/apt/lists/* && \
     sed -i 's/ssl = yes/ssl = no/' /etc/dovecot/conf.d/10-ssl.conf && \
     sed -i 's/ssl_cert =/#ssl_cert =/' /etc/dovecot/conf.d/10-ssl.conf && \
