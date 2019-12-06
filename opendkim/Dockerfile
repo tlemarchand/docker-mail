@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y opendkim && \
     echo 'ExternalIgnoreList      /etc/opendkim/TrustedHosts' >> /etc/opendkim.conf && \
     echo 'InternalHosts           /etc/opendkim/TrustedHosts' >> /etc/opendkim.conf && \
     sed -i 's/#Socket                  inet:8892@localhost/Socket                  inet:8892/' /etc/opendkim.conf && \
-    sed -i 's/Socket                  local:\/var\/run\/opendkim\/opendkim.sock\/#Socket                  local:\/var\/run\/opendkim\/opendkim.sock/' /etc/opendkim.conf && \
+    sed -i 's/Socket                  local:\/var\/run\/opendkim\/opendkim.sock/#Socket                  local:\/var\/run\/opendkim\/opendkim.sock/' /etc/opendkim.conf && \
     sed -i 's/UserID                opendkim/#UserID                opendkim/' /etc/opendkim.conf
 
 USER opendkim
