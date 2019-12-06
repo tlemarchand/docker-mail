@@ -26,3 +26,15 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
+- name: docker-postfix
+  image: plugins/docker
+  settings:
+    dockerfile: postfix/Dockerfile
+    repo: tlemarchand/postfix
+    tags:
+      - latest
+      - build-${DRONE_BUILD_NUMBER}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
