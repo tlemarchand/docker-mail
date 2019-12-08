@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y opendkim && \
     rm -rf /var/lib/apt/lists/* && \
     #sed -i 's/Syslog\t\t\tyes/Syslog\t\t\tno/' /etc/opendkim.conf && \
     sed -i 's/#Mode\t\t\tsv/Mode\t\t\ts/' /etc/opendkim.conf && \
+    echo 'SyslogSuccess\t\t\tyes' >> /etc/opendkim.conf && \
     echo 'KeyTable\t\t\t/etc/opendkim/KeyTable' >> /etc/opendkim.conf && \
     echo 'SigningTable\t\t\trefile:/etc/opendkim/SigningTable' >> /etc/opendkim.conf && \
     echo 'ExternalIgnoreList\t\t\t/etc/opendkim/TrustedHosts' >> /etc/opendkim.conf && \
