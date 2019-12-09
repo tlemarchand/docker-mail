@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y curl apt-transport-https gpg && \
     sed -i 's/#info_log_path =/info_log_path = \/dev\/stdout/' /etc/dovecot/conf.d/10-logging.conf && \
     sed -i '0,/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/ s/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/args = \/etc\/dovecot\/dovecot-ldap-passdb.conf.ext/' /etc/dovecot/conf.d/auth-ldap.conf.ext && \
     sed -i 's/args = \/etc\/dovecot\/dovecot-ldap.conf.ext/args = \/etc\/dovecot\/dovecot-ldap-userdb.conf.ext/' /etc/dovecot/conf.d/auth-ldap.conf.ext && \
-    sed -i 's/#disable_plaintext_auth = yes/disable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/#disable_plaintext_auth = yes/disable_plaintext_auth = no/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/#auth_gssapi_hostname =/auth_gssapi_hostname = "$ALL"/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/#auth_krb5_keytab =/auth_krb5_keytab = \/etc\/dovecot\/dovecot.keytab/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/auth_mechanisms = plain/auth_mechanisms = gssapi plain login/' /etc/dovecot/conf.d/10-auth.conf && \
