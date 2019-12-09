@@ -14,6 +14,18 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
+- name: docker-dkimpy-milter
+  image: plugins/docker
+  settings:
+    dockerfile: dkimpy-milter/Dockerfile
+    repo: tlemarchand/dkimpy-milter
+    tags:
+      - latest
+      - build-${DRONE_BUILD_NUMBER}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
 - name: docker-opendkim
   image: plugins/docker
   settings:
