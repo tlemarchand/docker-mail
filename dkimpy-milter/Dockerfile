@@ -14,4 +14,4 @@ RUN apt-get update && apt-get install -y dkimpy-milter && \
 
 USER dkimpy-milter
 
-CMD /usr/local/bin/dkimpy-milter /etc/dkimpy-milter.conf
+CMD /usr/bin/dkimpy-milter /etc/dkimpy-milter.conf
