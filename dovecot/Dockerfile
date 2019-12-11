@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y curl apt-transport-https gpg && \
     sed -i 's/#auth_krb5_keytab =/auth_krb5_keytab = \/etc\/dovecot\/dovecot.keytab/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/auth_mechanisms = plain/auth_mechanisms = gssapi plain login/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf && \
-    sed -i 's/#!include auth-ldap.conf.ext/!include auth-ldap.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
+    sed -i 's/#!include auth-ldap.conf.ext/!include auth-ldap.conf.ext/' /etc/dovecot/conf.d/10-auth.conf && \
+    sed -i 's/mail_location = mbox:~\/mail:INBOX=\/var\/mail\/%u/mail_location = maildir:~\/Maildir/' /etc/dovecot/conf.d/10-mail.conf && \
+    sed -i 's/#mmap_disable = no/mmap_disable = yes/' /etc/dovecot/conf.d/10-mail.conf
 
 CMD /usr/sbin/dovecot -F
