@@ -60,8 +60,8 @@ steps:
 - name: quay-dkimpy-milter
   image: plugins/docker
   settings:
-    dockerfile: quay.io/dkimpy-milter/Dockerfile
-    repo: tlemarchand/dkimpy-milter
+    dockerfile: dkimpy-milter/Dockerfile
+    repo: quay.io/tlemarchand/dkimpy-milter
     username:
       from_secret: quay_username
     password:
