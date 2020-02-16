@@ -17,7 +17,7 @@ steps:
 - name: set-tag-dovecot
   image: debian:buster-slim
   commands:
-  - APPVERSION=`cat dovecot/version | cut -d~ -f 1 | cut -d+ -f 1`
+  - "APPVERSION=`cat dovecot/version | cut -d~ -f 1 | cut -d+ -f 1 | cut -d: -f 2`"
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
 
 - name: docker-dovecot
