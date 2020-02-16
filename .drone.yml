@@ -5,11 +5,11 @@ steps:
 - name: generate-versions
   image: debian:buster-slim
   commands:
-  - apt-get update && apt-get install -y curl apt-transport-https gpg && \
-  - curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import && \
-  - gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg && \
-  - echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/buster buster main' > /etc/apt/sources.list.d/dovecot.list && \
-  - apt-get update
+  - "apt-get update && apt-get install -y curl apt-transport-https gpg"
+  - "curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import"
+  - "gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg"
+  - "echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/buster buster main' > /etc/apt/sources.list.d/dovecot.list"
+  - "apt-get update"
   - "apt-cache policy dkimpy-milter | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dkimpy-milter/version"
   - "apt-cache policy dovecot-core | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dovecot/version"
   - "apt-cache policy postfix | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > postfix/version"
