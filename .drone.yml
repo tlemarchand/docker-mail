@@ -2,39 +2,95 @@ kind: pipeline
 name: default
 
 steps:
+- name: generate-versions
+  image: debian:buster-slim
+  commands:
+  - apt-get update && apt-get install -y curl apt-transport-https gpg && \
+  - curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import && \
+  - gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg && \
+  - echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/buster buster main' > /etc/apt/sources.list.d/dovecot.list && \
+  - apt-get update
+  - "apt-cache policy dkimpy-milter | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dkimpy-milter/version"
+  - "apt-cache policy dovecot-core | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dovecot/version"
+  - "apt-cache policy postfix | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > postfix/version"
+
+- name: set-tag-dovecot
+  image: debian:buster-slim
+  commands:
+  - APPVERSION=`cat dovecot/version | cut -d~ -f 1 | cut -d+ -f 1`
+  - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
+
 - name: docker-dovecot
   image: plugins/docker
   settings:
     dockerfile: dovecot/Dockerfile
     repo: tlemarchand/dovecot
-    tags:
-      - latest
-      - build-${DRONE_BUILD_NUMBER}
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
+
+- name: quay-dovecot
+  image: plugins/docker
+  settings:
+    dockerfile: dovecot/Dockerfile
+    repo: quay.io/tlemarchand/dovecot
+    username:
+      from_secret: quay_username
+    password:
+      from_secret: quay_password
+    registry: quay.io
+
+- name: set-tag-dkimpy-milter
+  image: debian:buster-slim
+  commands:
+  - APPVERSION=`cat dkimpy-milter/version | cut -d~ -f 1 | cut -d+ -f 1`
+  - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
+
 - name: docker-dkimpy-milter
   image: plugins/docker
   settings:
     dockerfile: dkimpy-milter/Dockerfile
     repo: tlemarchand/dkimpy-milter
-    tags:
-      - latest
-      - build-${DRONE_BUILD_NUMBER}
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
+
+- name: quay-dkimpy-milter
+  image: plugins/docker
+  settings:
+    dockerfile: quay.io/dkimpy-milter/Dockerfile
+    repo: tlemarchand/dkimpy-milter
+    username:
+      from_secret: quay_username
+    password:
+      from_secret: quay_password
+    registry: quay.io
+
+- name: set-tag-postfix
+  image: debian:buster-slim
+  commands:
+  - APPVERSION=`cat postfix/version | cut -d~ -f 1 | cut -d+ -f 1`
+  - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
+
 - name: docker-postfix
   image: plugins/docker
   settings:
     dockerfile: postfix/Dockerfile
     repo: tlemarchand/postfix
-    tags:
-      - latest
-      - build-${DRONE_BUILD_NUMBER}
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
+
+- name: quay-postfix
+  image: plugins/docker
+  settings:
+    dockerfile: postfix/Dockerfile
+    repo: quay.io/tlemarchand/postfix
+    username:
+      from_secret: quay_username
+    password:
+      from_secret: quay_password
+    registry: quay.io

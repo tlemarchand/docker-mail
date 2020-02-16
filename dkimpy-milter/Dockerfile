@@ -1,6 +1,8 @@
 FROM debian:buster-slim
 
-RUN apt-get update && apt-get install -y dkimpy-milter && \
+COPY dkimpy-milter/version /tmp/
+
+RUN apt-get update && apt-get install -y dkimpy-milter=`cat /tmp/version` && \
     rm -rf /var/lib/apt/lists/* && \
     sed -i 's/#Mode\t\t\tsv/Mode\t\t\ts/' /etc/dkimpy-milter.conf && \
     echo 'SyslogSuccess\t\t\tyes' >> /etc/dkimpy-milter.conf && \
