@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y curl apt-transport-https gpg && \
     sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/#!include auth-ldap.conf.ext/!include auth-ldap.conf.ext/' /etc/dovecot/conf.d/10-auth.conf && \
     sed -i 's/mail_location = mbox:~\/mail:INBOX=\/var\/mail\/%u/mail_location = maildir:~\/Maildir/' /etc/dovecot/conf.d/10-mail.conf && \
-    sed -i 's/#mmap_disable = no/mmap_disable = yes/' /etc/dovecot/conf.d/10-mail.conf
+    sed -i 's/#mmap_disable = no/mmap_disable = yes/' /etc/dovecot/conf.d/10-mail.conf && \
+    sed -i 's/#protocols = $protocols sieve/protocols = $protocols sieve/' /etc/dovecot/conf.d/20-managesieve.conf && \
+    echo -e "service managesieve-login {\n  inet_listener sieve {\n    port = 4190\n  }\n}" >> /etc/dovecot/conf.d/20-managesieve.conf
 
 CMD /usr/sbin/dovecot -F
