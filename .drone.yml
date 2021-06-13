@@ -20,15 +20,15 @@ steps:
   - "APPVERSION=`cat dovecot/version | cut -d~ -f 1 | cut -d+ -f 1 | cut -d: -f 2`"
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
 
-- name: docker-dovecot
-  image: plugins/docker
-  settings:
-    dockerfile: dovecot/Dockerfile
-    repo: tlemarchand/dovecot
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+# - name: docker-dovecot
+#   image: plugins/docker
+#   settings:
+#     dockerfile: dovecot/Dockerfile
+#     repo: tlemarchand/dovecot
+#     username:
+#       from_secret: docker_username
+#     password:
+#       from_secret: docker_password
 
 - name: quay-dovecot
   image: plugins/docker
@@ -47,15 +47,15 @@ steps:
   - APPVERSION=`cat dkimpy-milter/version | cut -d~ -f 1 | cut -d+ -f 1`
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
 
-- name: docker-dkimpy-milter
-  image: plugins/docker
-  settings:
-    dockerfile: dkimpy-milter/Dockerfile
-    repo: tlemarchand/dkimpy-milter
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+# - name: docker-dkimpy-milter
+#   image: plugins/docker
+#   settings:
+#     dockerfile: dkimpy-milter/Dockerfile
+#     repo: tlemarchand/dkimpy-milter
+#     username:
+#       from_secret: docker_username
+#     password:
+#       from_secret: docker_password
 
 - name: quay-dkimpy-milter
   image: plugins/docker
@@ -74,15 +74,15 @@ steps:
   - APPVERSION=`cat postfix/version | cut -d~ -f 1 | cut -d+ -f 1`
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
 
-- name: docker-postfix
-  image: plugins/docker
-  settings:
-    dockerfile: postfix/Dockerfile
-    repo: tlemarchand/postfix
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+# - name: docker-postfix
+#   image: plugins/docker
+#   settings:
+#     dockerfile: postfix/Dockerfile
+#     repo: tlemarchand/postfix
+#     username:
+#       from_secret: docker_username
+#     password:
+#       from_secret: docker_password
 
 - name: quay-postfix
   image: plugins/docker
