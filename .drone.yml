@@ -6,19 +6,19 @@ image_pull_secrets:
 
 steps:
 - name: generate-versions
-  image: debian:buster-slim
+  image: debian:bullseye-slim
   commands:
   - "apt-get update && apt-get install -y curl apt-transport-https gpg"
   - "curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import"
   - "gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg"
-  - "echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/buster buster main' > /etc/apt/sources.list.d/dovecot.list"
+  - "echo 'deb https://repo.dovecot.org/ce-2.3-latest/debian/bullseye bullseye main' > /etc/apt/sources.list.d/dovecot.list"
   - "apt-get update"
   - "apt-cache policy dkimpy-milter | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dkimpy-milter/version"
   - "apt-cache policy dovecot-core | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > dovecot/version"
   - "apt-cache policy postfix | sed -n -e 's/^.*Candidate: //p' | tr -d '\n' > postfix/version"
 
 - name: set-tag-dovecot
-  image: debian:buster-slim
+  image: debian:bullseye-slim
   commands:
   - "APPVERSION=`cat dovecot/version | cut -d~ -f 1 | cut -d+ -f 1 | cut -d: -f 2`"
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
@@ -45,7 +45,7 @@ steps:
     registry: quay.io
 
 - name: set-tag-dkimpy-milter
-  image: debian:buster-slim
+  image: debian:bullseye-slim
   commands:
   - APPVERSION=`cat dkimpy-milter/version | cut -d~ -f 1 | cut -d+ -f 1`
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
@@ -72,7 +72,7 @@ steps:
     registry: quay.io
 
 - name: set-tag-postfix
-  image: debian:buster-slim
+  image: debian:bullseye-slim
   commands:
   - APPVERSION=`cat postfix/version | cut -d~ -f 1 | cut -d+ -f 1`
   - echo $APPVERSION,latest,$APPVERSION-$DRONE_BUILD_NUMBER > .tags
